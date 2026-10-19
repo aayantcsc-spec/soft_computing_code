@@ -1,0 +1,32 @@
+# Practical 2B: XOR function using McCulloch-Pitts Neural Network
+# XOR = (A OR B) AND (A NAND B)
+import numpy as np
+
+class McCullochPittsNeuron:
+    def __init__(self, weights, threshold):
+        self.weights = np.array(weights)
+        self.threshold = threshold
+
+    def activate(self, inputs):
+        weighted_sum = np.dot(inputs, self.weights)
+        return 1 if weighted_sum >= self.threshold else 0
+
+or_neuron = McCullochPittsNeuron(weights=[1, 1], threshold=1)
+nand_neuron = McCullochPittsNeuron(weights=[-2, -2], threshold=-3)
+and_neuron = McCullochPittsNeuron(weights=[1, 1], threshold=2)
+
+print("A B | XOR")
+print("------------")
+
+inputs = [
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1]
+]
+
+for x in inputs:
+    or_output = or_neuron.activate(x)
+    nand_output = nand_neuron.activate(x)
+    xor_output = and_neuron.activate([or_output, nand_output])
+    print(f"{x[0]} {x[1]} |  {xor_output}")

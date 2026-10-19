@@ -1,0 +1,42 @@
+# Practical 5: Error Back Propagation Algorithm
+# Same network as Practical 4 (1 input -> 1 hidden tanh -> 1 output tanh),
+# but the forward/backward steps are REPEATED for many epochs until the error is small.
+import math
+
+weight_input_hidden = float(input("Enter weight from input to hidden neuron: "))
+bias_hidden = float(input("Enter bias of hidden neuron: "))
+weight_hidden_output = float(input("Enter weight from hidden to output neuron: "))
+bias_output = float(input("Enter bias of output neuron: "))
+learning_rate = float(input("Enter learning rate: "))
+input_value = float(input("Enter input value: "))
+target_output = float(input("Enter target output (between -1 and 1): "))
+epochs = int(input("Enter number of epochs: "))
+
+for epoch in range(1, epochs + 1):
+    # Forward propagation
+    net_hidden = weight_input_hidden * input_value + bias_hidden
+    hidden_output = math.tanh(net_hidden)
+    net_output = weight_hidden_output * hidden_output + bias_output
+    predicted_output = math.tanh(net_output)
+
+    # Error
+    error = target_output - predicted_output
+
+    # Backward propagation of error
+    output_sensitivity = -2 * (1 - predicted_output ** 2) * error
+    hidden_sensitivity = (1 - hidden_output ** 2) * weight_hidden_output * output_sensitivity
+
+    # Update weights and biases (gradient descent)
+    weight_hidden_output -= learning_rate * output_sensitivity * hidden_output
+    weight_input_hidden -= learning_rate * hidden_sensitivity * input_value
+    bias_output -= learning_rate * output_sensitivity
+    bias_hidden -= learning_rate * hidden_sensitivity
+
+    if epoch == 1 or epoch % max(1, epochs // 10) == 0 or epoch == epochs:
+        print(f"Epoch {epoch:5d} | Output = {predicted_output:.6f} | Error = {error:.6f}")
+
+print("\n----- Final Parameters -----")
+print("Input -> Hidden Weight :", weight_input_hidden)
+print("Hidden -> Output Weight:", weight_hidden_output)
+print("Hidden Bias            :", bias_hidden)
+print("Output Bias            :", bias_output)

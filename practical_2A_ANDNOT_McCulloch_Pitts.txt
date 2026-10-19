@@ -1,0 +1,27 @@
+# Practical 2A: ANDNOT function using McCulloch-Pitts Neural Network
+import numpy as np
+
+class McCullochPittsNeuron:
+    def __init__(self, weights, threshold):
+        self.weights = np.array(weights)
+        self.threshold = threshold
+
+    def activate(self, inputs):
+        weighted_sum = np.dot(inputs, self.weights)
+        return 1 if weighted_sum >= self.threshold else 0
+
+and_not = McCullochPittsNeuron(weights=[1, -1], threshold=1)
+
+print("A B | A AND NOT B")
+print("------------------")
+
+inputs = [
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1]
+]
+
+for x in inputs:
+    output = and_not.activate(x)
+    print(f"{x[0]} {x[1]} |      {output}")

@@ -1,0 +1,36 @@
+# Practical 3: AND Hebb Rule Network (bipolar inputs and targets)
+import numpy as np
+
+# Input data
+X = np.array([
+    [-1, -1],
+    [-1,  1],
+    [ 1, -1],
+    [ 1,  1]
+])
+
+# Target output for AND
+Y = np.array([-1, -1, -1, 1])
+
+# Initialize weights and bias
+w = np.zeros(2)
+b = 0
+
+print("Initial Weights:", w)
+print("Initial Bias:", b)
+
+# Hebbian learning: w_new = w_old + x*y , b_new = b_old + y
+for i in range(len(X)):
+    w = w + X[i] * Y[i]
+    b = b + Y[i]
+
+print("\nFinal Weights:", w)
+print("Final Bias:", b)
+
+# Testing AND function
+print("\nTesting AND Function")
+print("Input\t\tTarget\tOutput")
+for i in range(len(X)):
+    net = np.dot(X[i], w) + b
+    output = 1 if net >= 0 else -1
+    print(f"{X[i]}\t{Y[i]}\t{output}")

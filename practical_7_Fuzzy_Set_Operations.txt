@@ -1,0 +1,35 @@
+# Practical 7: Fuzzy Set Operations
+A = {"x1": 0.2, "x2": 0.5, "x3": 0.8, "x4": 1.0}
+B = {"x1": 0.6, "x2": 0.4, "x3": 0.7, "x4": 0.3}
+
+def fuzzy_union(A, B):
+    return {x: max(A[x], B[x]) for x in A}
+
+def fuzzy_intersection(A, B):
+    return {x: min(A[x], B[x]) for x in A}
+
+def fuzzy_complement(A):
+    return {x: round(1 - A[x], 2) for x in A}
+
+def algebraic_sum(A, B):
+    return {x: round(A[x] + B[x] - A[x] * B[x], 2) for x in A}
+
+def algebraic_product(A, B):
+    return {x: round(A[x] * B[x], 2) for x in A}
+
+def bounded_sum(A, B):
+    return {x: round(min(1, A[x] + B[x]), 2) for x in A}
+
+def bounded_difference(A, B):
+    return {x: round(max(0, A[x] - B[x]), 2) for x in A}
+
+print("A =", A)
+print("B =", B)
+print("\n1. Union (A OR B):", fuzzy_union(A, B))
+print("2. Intersection (A AND B):", fuzzy_intersection(A, B))
+print("3. Complement (NOT A):", fuzzy_complement(A))
+print("4. Complement (NOT B):", fuzzy_complement(B))
+print("5. Algebraic Sum:", algebraic_sum(A, B))
+print("6. Algebraic Product:", algebraic_product(A, B))
+print("7. Bounded Sum:", bounded_sum(A, B))
+print("8. Bounded Difference (A - B):", bounded_difference(A, B))

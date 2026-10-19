@@ -1,0 +1,46 @@
+# Practical 4: Back Propagation Problem
+# Network: 1 input -> 1 hidden neuron (tanh) -> 1 output neuron (tanh)
+# Performs ONE forward pass and ONE backward pass (single weight update).
+import math
+
+weight_input_hidden = float(input("Enter weight from input to hidden neuron: "))
+bias_hidden = float(input("Enter bias of hidden neuron: "))
+weight_hidden_output = float(input("Enter weight from hidden to output neuron: "))
+bias_output = float(input("Enter bias of output neuron: "))
+learning_rate = float(input("Enter learning rate: "))
+input_value = float(input("Enter input value: "))
+target_output = float(input("Enter target output: "))
+
+# ---- Forward propagation ----
+net_hidden = weight_input_hidden * input_value + bias_hidden
+hidden_output = math.tanh(net_hidden)
+net_output = weight_hidden_output * hidden_output + bias_output
+predicted_output = math.tanh(net_output)
+
+# ---- Error ----
+error = target_output - predicted_output
+print("\nPredicted output =", predicted_output)
+print("Error (before update) =", error)
+
+# ---- Backpropagation (sensitivities = dE/dnet, E = (target - output)^2) ----
+output_sensitivity = -2 * (1 - predicted_output ** 2) * error
+hidden_sensitivity = (1 - hidden_output ** 2) * weight_hidden_output * output_sensitivity
+
+# ---- Update (gradient descent: new = old - learning_rate * gradient) ----
+updated_weight_hidden_output = weight_hidden_output - learning_rate * output_sensitivity * hidden_output
+updated_weight_input_hidden = weight_input_hidden - learning_rate * hidden_sensitivity * input_value
+updated_bias_output = bias_output - learning_rate * output_sensitivity
+updated_bias_hidden = bias_hidden - learning_rate * hidden_sensitivity
+
+# ---- Display results ----
+print("\n----- Updated Parameters -----")
+print("Updated Input -> Hidden Weight :", updated_weight_input_hidden)
+print("Updated Hidden -> Output Weight:", updated_weight_hidden_output)
+print("Updated Hidden Bias            :", updated_bias_hidden)
+print("Updated Output Bias            :", updated_bias_output)
+
+# ---- Check: error after the update should be smaller ----
+new_hidden = math.tanh(updated_weight_input_hidden * input_value + updated_bias_hidden)
+new_output = math.tanh(updated_weight_hidden_output * new_hidden + updated_bias_output)
+print("\nOutput after update =", new_output)
+print("Error (after update) =", target_output - new_output)

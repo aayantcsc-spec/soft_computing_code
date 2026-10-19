@@ -1,0 +1,20 @@
+# Practical 6: Membership Operators and Identity Operators
+
+# ---------- A. Identity Operators (is, is not) ----------
+list1 = [1, 2, 3]
+list2 = [1, 2, 3]
+list3 = list1
+
+print("list1 is list3:", list1 is list3)
+print("list1 is list2:", list1 is list2)
+print("list1 is not list2:", list1 is not list2)
+print("list1 is not list3:", list1 is not list3)
+
+# ---------- B. Membership Operators (in, not in) ----------
+numbers = [10, 20, 30, 40, 50]
+text = "Python programming"
+
+print("\n30 in numbers:", 30 in numbers)
+print("'Python' in text:", "Python" in text)
+print("60 not in numbers:", 60 not in numbers)
+print("'Java' not in text:", "Java" not in text)
